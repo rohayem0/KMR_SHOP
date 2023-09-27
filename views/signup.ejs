@@ -1,0 +1,30 @@
+<%- include('parts/header.ejs')%>
+<%- include('parts/navbar.ejs')%>
+<div class="container text-center">
+    <h3>
+        Create An Account
+    </h3>
+    <form action="/signup" method="post">
+        <input type="text" class="form-control" name="userName" placeholder="UserName">
+        <input type="text" class="form-control" name="email" placeholder="E-mail">
+        <input type="text" class="form-control" name="password" placeholder="password">
+        <input type="text" class="form-control" name="confirmPassword" placeholder="confirm password">
+        <input type="submit" value="Create An Account" class="btn btn-primary">
+    </form>
+    <% if(authError){%>
+        <br>
+        <p class="alert alert-danger">
+            <%= authError %>
+        </p>
+    <%}%>
+    <% for (let error of validationErrors) {%>
+        <p class="alert alert-danger">
+            <%= error.msg%>
+        </p>
+    <%}%>
+    <br>
+    <div>
+        Already have account? <a href="/login">Login</a>
+    </div>
+</div>
+<%- include('parts/footer.ejs')%>
