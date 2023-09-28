@@ -4,7 +4,11 @@ const DB_URL = process.env.DB;
 const userSchema = mongoose.Schema({
     userName:String,
     email:String,
-    password:String
+    password:String,
+    isAdmin:{
+        type:Boolean,
+        default:false
+    }
 })
 
 const User = mongoose.model('user',userSchema);
@@ -99,7 +103,7 @@ module.exports.login = (email,password)=>{
                 reject('password is incorrect')
                 }
                 else{
-                    resolve(user._id)
+                    resolve(user)
                 }
             }
         }).catch(err => {

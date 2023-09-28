@@ -90,3 +90,14 @@ module.exports.getFirstProduct = _ =>{
         });
     });
 }
+
+module.exports.addProduct = data => 
+    
+    new Promise((resolve,reject)=>{
+        //return reject('error')
+        try {
+            resolve(Product.create(data))
+        } catch (error) {
+            reject(error)
+        }
+    })

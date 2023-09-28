@@ -6,30 +6,33 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
+        <li class="nav-item <%= pageTitle === 'home' ? 'active' :''%>">
+          <a class="nav-link " href="/">Home</a>
         </li>
         <% if (isUser  ) { %>
-          <li class="nav-item">
+          <li class="nav-item <%= pageTitle === 'cart' ? 'active' :''%>" >
             <a class="nav-link" href="/cart">Cart</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" >
             <a class="nav-link" href="/orders">Orders</a>
           </li>
         <% } else {%>
-          <li class="nav-item">
+          <li class="nav-item <%= pageTitle === 'login' ? 'active' :''%>"  >
             <a class="nav-link" href="/login">Login</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item <%= pageTitle === 'signup' ? 'active' :''%>" >
             <a class="nav-link" href="/signup">Signup</a>
           </li>
         <% } %>
-        <li class="nav-item">
+        <% if(isAdmin) {%>
+        <li class="nav-item <%= pageTitle === 'add-product' ? 'active' :''%>" >
           <a class="nav-link" href="/admin/add">Add Product</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" >
           <a class="nav-link" href="/admin/orders">Manage Orders</a>
         </li>
+        <%}%>
+        
       </ul>
       <% if(isUser) {%>
         <form action="/logout" method="post">

@@ -6,7 +6,9 @@ module.exports.getSignup = (req,res)=>{
     res.render('signup',{
         authError:req.flash('authError')[0],
         validationErrors:req.flash('validationErrors'),
-        isUser:false
+        isUser:false,
+        isAdmin:false,
+        pageTitle:'signup',
     })
 
 }
@@ -14,8 +16,7 @@ module.exports.postSignup =async (req,res)=>{
     //return console.log(validationResult(req));
     if(validationResult(req).isEmpty){
         authModel.createNewUser(req.body.userName,req.body.email,req.body.password).then(()=>res.redirect('/login')).catch(err => {
-        console.log(err);
-        res.redirect('/signup')
+        res.redirect('/error')
         })
     }
     
@@ -29,21 +30,24 @@ module.exports.getLogin = (req,res)=>{
     res.render('login',{
         authError:req.flash('authError')[0],
         validationErrors:req.flash('validationErrors'),
-        isUser : false
+        isUser : false,
+        isAdmin:false,
+        pageTitle:'login',
     })
 }
 module.exports.postLogin = (req,res)=>{
     if(validationResult(req).isEmpty()){
             authModel
         .login(req.body.email,req.body.password)
-        .then((id)=> {
-            console.log(`user id is ${id}`);
-            req.session.userId = id
+        .then((user)=> {
+            console.log(`user id is ${user._id}`);
+            console.log(`is admin ${user.isAdmin}`);
+            req.session.userId = user._id,
+            req.session.isAdmin = user.isAdmin
             res.redirect('/')
         })
         .catch(err=>{
-            req.flash('authError',err)
-            res.redirect('/login')
+            res.redirect('/error')
         })
     }
     else{
@@ -51,8 +55,8 @@ module.exports.postLogin = (req,res)=>{
         res.redirect('/login')
     }
 }
-module.exports.logout = (req,res)=>{
-    req.session.destroy(()=>{
+module.exports.logout = async(req,res)=>{
+    await req.session.destroy(()=>{
         res.redirect('/')
     })
 }
